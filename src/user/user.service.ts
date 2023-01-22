@@ -1,6 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UserEntity } from './user';
 
 @Injectable()
 export class UserService{
@@ -12,8 +13,7 @@ export class UserService{
   }
 
   findOne(id: number): Promise<UserEntity> {
-    // @ts-ignore
-    return this.userRepository.findOne(id);
+    return this.userRepository.findOneById(id);
   }
 
   create(user: UserEntity): Promise<UserEntity> {
@@ -24,21 +24,8 @@ export class UserService{
     await this.userRepository.update(id, user);
   }
 
-  async remove(id, number): Promise<void> {
+  async delete(id: number): Promise<void> {
     await this.userRepository.delete(id);
   }
-
-}
-
-@Entity()
-export class UserEntity{
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
-  name; string;
-
-  @Column()
-  lastName: string;
 
 }
